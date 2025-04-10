@@ -3,8 +3,8 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 
-#define VIEWPORT_WIDTH 1400
-#define VIEWPORT_HEIGHT 900
+#define VIEWPORT_W 1400
+#define VIEWPORT_H 900
 
 void draw_pixel(int x, int y) {
   glBegin(GL_POINTS);
@@ -29,14 +29,14 @@ void init() {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   /* center the viewport (gluOrtho2D(-w/2, w/2, h/2, -h/2);) */
-  gluOrtho2D(-VIEWPORT_WIDTH / 2.0, VIEWPORT_WIDTH, -VIEWPORT_HEIGHT,
-             VIEWPORT_HEIGHT);
+  gluOrtho2D(-VIEWPORT_W / 2.0, VIEWPORT_W, -VIEWPORT_H,
+             VIEWPORT_H);
 }
 
 int main(int argc, char *argv[]) {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-  glutInitWindowSize(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+  glutInitWindowSize(VIEWPORT_W, VIEWPORT_H);
   glutInitWindowPosition(100, 100);
   glutCreateWindow("Campo de Futebol");
 
