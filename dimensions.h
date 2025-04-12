@@ -1,3 +1,6 @@
+#ifndef DIMENSIONS_H
+#define DIMENSIONS_H
+
 enum field_dimensions {
   FIELD_W = 1200,
   FIELD_H = 800,
@@ -60,3 +63,5 @@ enum semi_circle_dimensions {
   LEFT_SEMI_CIRCLE_X = FIELD_X + FIELD_W - PENALTY_AREA_W,
   LEFT_SEMI_CIRCLE_Y = FIELD_Y + FIELD_H / 2,
 };
+
+#endif /* DIMENSIONS_H */
