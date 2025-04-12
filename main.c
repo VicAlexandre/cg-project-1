@@ -17,20 +17,21 @@ void display() {
 
   draw_field(draw_pixel);
   draw_goals(draw_pixel);
+  draw_small_areas(draw_pixel);
+  draw_penalty_area(draw_pixel);
 
   glFlush();
 }
 
 void init() {
-  glClearColor(0.1, 200.0, 0.2, 0.5);
+  glClearColor(0.05, 0.168, 0.082, 0.3);
   glColor3f(1.0, 1.0, 1.0);
   glPointSize(2.0);
 
+  /* Set up the viewport */
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  /* center the viewport (gluOrtho2D(-w/2, w/2, h/2, -h/2);) */
-  gluOrtho2D(-VIEWPORT_W / 2.0, VIEWPORT_W, -VIEWPORT_H,
-             VIEWPORT_H);
+  gluOrtho2D(-50, VIEWPORT_W + 50, 50, VIEWPORT_H + 50);
 }
 
 int main(int argc, char *argv[]) {
