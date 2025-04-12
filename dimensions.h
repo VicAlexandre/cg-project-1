@@ -64,4 +64,10 @@ enum semi_circle_dimensions {
   LEFT_SEMI_CIRCLE_Y = FIELD_Y + FIELD_H / 2,
 };
 
+enum soccer_ball_dimensions {
+  BALL_RADIUS = 4,
+  BALL_X = FIELD_X + FIELD_W / 2,
+  BALL_Y = FIELD_Y + FIELD_H / 2,
+};
+
 #endif /* DIMENSIONS_H */
