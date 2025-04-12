@@ -3,13 +3,32 @@
 #include "dimensions.h"
 
 #include <stdbool.h>
+#include <stdio.h>
 
-static struct {
+struct ball_pos {
   int x;
   int y;
-} ball = {
-    BALL_X,
-    BALL_Y,
+};
+
+struct scoreboard {
+  unsigned int left_team;
+  unsigned int right_team;
+};
+
+static struct {
+  struct ball_pos ball;
+  struct scoreboard scoreboard;
+} self = {
+    .ball =
+        {
+            BALL_X,
+            BALL_Y,
+        },
+    .scoreboard =
+        {
+            .left_team = 0,
+            .right_team = 0,
+        },
 };
 
 void obj_draw_goals(void (*draw_pixel)(int, int)) {
@@ -104,33 +123,70 @@ void obj_draw_penalty_area(void (*draw_pixel)(int, int)) {
 
 static inline bool check_goal(int x, int y) {
   if (x < GOAL_L_X + GOAL_W && y > GOAL_L_Y && y < GOAL_L_Y + GOAL_H) {
+    self.scoreboard.right_team++;
     return true;
   } else if (x > GOAL_R_X && y > GOAL_R_Y && y < GOAL_R_Y + GOAL_H) {
+    self.scoreboard.left_team++;
     return true;
   }
   return false;
 }
 
 void obj_move_ball(int x, int y) {
-  ball.x += x;
-  ball.y += y;
+  self.ball.x += x;
+  self.ball.y += y;
 
-  if ((ball.x < FIELD_X) || (ball.x > FIELD_X + FIELD_W)) {
-    if (check_goal(ball.x, ball.y)) {
-      ball.x = FIELD_X + FIELD_W / 2;
-      ball.y = FIELD_Y + FIELD_H / 2;
+  if ((self.ball.x < FIELD_X) || (self.ball.x > FIELD_X + FIELD_W)) {
+    if (check_goal(self.ball.x, self.ball.y)) {
+      self.ball.x = FIELD_X + FIELD_W / 2;
+      self.ball.y = FIELD_Y + FIELD_H / 2;
       return;
     }
-    ball.x -= x;
+    self.ball.x -= x;
   }
 
-  if (ball.y < FIELD_Y) {
-    ball.y = FIELD_Y;
-  } else if (ball.y > FIELD_Y + FIELD_H) {
-    ball.y = FIELD_Y + FIELD_H;
+  if (self.ball.y < FIELD_Y) {
+    self.ball.y = FIELD_Y;
+  } else if (self.ball.y > FIELD_Y + FIELD_H) {
+    self.ball.y = FIELD_Y + FIELD_H;
   }
 }
 
 void obj_draw_ball(void (*draw_pixel)(int, int)) {
-  bresenham_draw_circle_filled(ball.x, ball.y, BALL_RADIUS, draw_pixel);
+  bresenham_draw_circle_filled(self.ball.x, self.ball.y, BALL_RADIUS,
+                               draw_pixel);
+}
+
+void obj_draw_scoreboard(void (*draw_pixel)(int, int)) {
+  /* scoreboard rectangle */
+  bresenham_draw_line(SCOREBOARD_X, SCOREBOARD_Y, SCOREBOARD_X + SCOREBOARD_W,
+                      SCOREBOARD_Y, draw_pixel);
+  bresenham_draw_line(SCOREBOARD_X, SCOREBOARD_Y, SCOREBOARD_X,
+                      SCOREBOARD_Y + SCOREBOARD_H, draw_pixel);
+  bresenham_draw_line(SCOREBOARD_X + SCOREBOARD_W, SCOREBOARD_Y,
+                      SCOREBOARD_X + SCOREBOARD_W, SCOREBOARD_Y + SCOREBOARD_H,
+                      draw_pixel);
+  bresenham_draw_line(SCOREBOARD_X, SCOREBOARD_Y + SCOREBOARD_H,
+                      SCOREBOARD_X + SCOREBOARD_W, SCOREBOARD_Y + SCOREBOARD_H,
+                      draw_pixel);
+
+  /* scoreboard split line */
+  bresenham_draw_line(SCOREBOARD_X + SCOREBOARD_W / 2, SCOREBOARD_Y,
+                      SCOREBOARD_X + SCOREBOARD_W / 2,
+                      SCOREBOARD_Y + SCOREBOARD_H, draw_pixel);
+}
+
+void obj_draw_scores(void (*draw_string)(float, float, const char *)) {
+  char left_team_score[3] = {};
+  char right_team_score[3] = {};
+
+  snprintf(left_team_score, sizeof(left_team_score), "%d",
+           self.scoreboard.left_team);
+  snprintf(right_team_score, sizeof(right_team_score), "%d",
+           self.scoreboard.right_team);
+
+  draw_string(SCOREBOARD_X + SCOREBOARD_W / 4.0,
+              SCOREBOARD_Y + SCOREBOARD_H / 2.0, left_team_score);
+  draw_string(SCOREBOARD_X + SCOREBOARD_W * 3.0 / 4.0,
+              SCOREBOARD_Y + SCOREBOARD_H / 2.0, right_team_score);
 }

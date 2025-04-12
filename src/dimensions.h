@@ -70,4 +70,18 @@ enum soccer_ball_dimensions {
   BALL_Y = FIELD_Y + FIELD_H / 2,
 };
 
+enum scoreboard_dimensions {
+  SCOREBOARD_W = 200,
+  SCOREBOARD_H = 80,
+
+  SCOREBOARD_X = FIELD_X + FIELD_W / 2 - SCOREBOARD_W / 2,
+  SCOREBOARD_Y = FIELD_Y + FIELD_H + 30,
+};
+
+enum base_player_dimensions {
+  PLAYER_W = 20,
+  PLAYER_H = 20,
+  PLAYER_R = 5,
+};
+
 #endif /* DIMENSIONS_H */
