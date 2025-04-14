@@ -4,8 +4,8 @@
 #include <GL/glut.h>
 #include <stdbool.h>
 
-#define VIEWPORT_W 1300
-#define VIEWPORT_H 900
+#define VIEWPORT_W 1400
+#define VIEWPORT_H 1000
 
 /********** Callbacks used in Bresenham **********/
 void white_pixel_cb(int x, int y) {
@@ -19,6 +19,19 @@ void yellow_pixel_cb(int x, int y) {
   white_pixel_cb(x, y);
   glColor3f(1.0, 1.0, 1.0);
 }
+
+void purple_pixel_cb(int x, int y) {
+  glColor3f(0.5, 0.0, 0.5);
+  white_pixel_cb(x, y);
+  glColor3f(1.0, 1.0, 1.0);
+}
+
+void cyan_pixel_cb(int x, int y) {
+  glColor3f(0.0, 1.0, 1.0);
+  white_pixel_cb(x, y);
+  glColor3f(1.0, 1.0, 1.0);
+}
+
 /************************************************/
 
 void draw_string(float x, float y, const char *str) {
@@ -36,8 +49,11 @@ void display() {
   obj_draw_small_areas(white_pixel_cb);
   obj_draw_penalty_area(white_pixel_cb);
   obj_draw_scoreboard(white_pixel_cb);
-  obj_draw_ball(yellow_pixel_cb);
+  obj_draw_ball(cyan_pixel_cb);
   obj_draw_scores(draw_string);
+  obj_draw_players(white_pixel_cb, purple_pixel_cb, yellow_pixel_cb);
+
+  draw_string(0, 20, "Aperte 'w', 'a', 's' ou 'd' para mover a bola");
 
   glFlush();
 }
@@ -49,7 +65,7 @@ void init() {
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(-50, VIEWPORT_W + 50, 50, VIEWPORT_H + 50);
+  gluOrtho2D(-40, VIEWPORT_W + 40, -50, VIEWPORT_H + 100);
 }
 
 void keyboard(unsigned char key, int x, int y) {

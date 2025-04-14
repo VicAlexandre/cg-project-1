@@ -16,6 +16,10 @@ void obj_draw_scoreboard(void (*draw_pixel)(int, int));
 
 void obj_draw_scores(void (*draw_string)(float, float, const char *));
 
+void obj_draw_players(void (*draw_pixel_white)(int, int),
+                      void (*draw_pixel_left_team)(int, int),
+                      void (*draw_pixel_right_team)(int, int));
+
 /************** MOVE API ***************/
 void obj_move_ball(int x, int y);
 

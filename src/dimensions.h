@@ -2,8 +2,8 @@
 #define DIMENSIONS_H
 
 enum field_dimensions {
-  FIELD_W = 1200,
-  FIELD_H = 800,
+  FIELD_W = 1300,
+  FIELD_H = 900,
   FIELD_X = 50,
   FIELD_Y = 50,
 
@@ -81,7 +81,39 @@ enum scoreboard_dimensions {
 enum base_player_dimensions {
   PLAYER_W = 20,
   PLAYER_H = 20,
-  PLAYER_R = 5,
+  PLAYER_R = 10,
+};
+
+enum goalkeeper_pos {
+  GK_L_X = GOAL_L_X + GOAL_W + 20,
+  GK_L_Y = GOAL_L_Y + GOAL_H / 2,
+
+  GK_R_X = GOAL_R_X - 20,
+  GK_R_Y = GOAL_R_Y + GOAL_H / 2,
+};
+
+enum defender_pos {
+  DEF_L_X = SMALL_AREA_L_X + SMALL_AREA_W + 20,
+  DEF_L_Y = SMALL_AREA_L_Y + SMALL_AREA_H / 2,
+
+  DEF_R_X = SMALL_AREA_R_X - 20,
+  DEF_R_Y = SMALL_AREA_R_Y + SMALL_AREA_H / 2,
+};
+
+enum midfielder_pos {
+  MID_L_X = (PENALTY_AREA_L_X + FIELD_C_X + PENALTY_AREA_W) / 2,
+  MID_L_Y = FIELD_C_Y,
+
+  MID_R_X = (PENALTY_AREA_R_X + FIELD_C_X) / 2,
+  MID_R_Y = FIELD_C_Y,
+};
+
+enum forward_pos {
+  FWD_L_X = MID_L_X + 50,
+  FWD_L_Y = FIELD_C_Y,
+
+  FWD_R_X = MID_R_X - 50,
+  FWD_R_Y = FIELD_C_Y,
 };
 
 #endif /* DIMENSIONS_H */

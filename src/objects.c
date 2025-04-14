@@ -179,14 +179,62 @@ void obj_draw_scoreboard(void (*draw_pixel)(int, int)) {
 void obj_draw_scores(void (*draw_string)(float, float, const char *)) {
   char left_team_score[3] = {};
   char right_team_score[3] = {};
+  char left_team_name[20] = "Roxinhos da Casa";
+  char right_team_name[20] = "Amarelinhos de Fora";
 
   snprintf(left_team_score, sizeof(left_team_score), "%d",
            self.scoreboard.left_team);
   snprintf(right_team_score, sizeof(right_team_score), "%d",
            self.scoreboard.right_team);
 
+  /* scores */
   draw_string(SCOREBOARD_X + SCOREBOARD_W / 4.0,
               SCOREBOARD_Y + SCOREBOARD_H / 2.0, left_team_score);
   draw_string(SCOREBOARD_X + SCOREBOARD_W * 3.0 / 4.0,
               SCOREBOARD_Y + SCOREBOARD_H / 2.0, right_team_score);
+
+  /* team names */
+  draw_string(SCOREBOARD_X - 100, SCOREBOARD_Y + SCOREBOARD_H + 10,
+              left_team_name);
+  draw_string(SCOREBOARD_X + SCOREBOARD_W - 20,
+              SCOREBOARD_Y + SCOREBOARD_H + 10, right_team_name);
+}
+
+void obj_draw_players(void (*draw_pixel_white)(int, int),
+                      void (*draw_pixel_left_team)(int, int),
+                      void (*draw_pixel_right_team)(int, int)) {
+  /* goalkeepers */
+  bresenham_draw_circle_filled(GK_L_X, GK_L_Y, PLAYER_R, draw_pixel_white);
+  bresenham_draw_circle_filled(GK_L_X, GK_L_Y, PLAYER_R / 2,
+                               draw_pixel_left_team);
+
+  bresenham_draw_circle_filled(GK_R_X, GK_R_Y, PLAYER_R, draw_pixel_white);
+  bresenham_draw_circle_filled(GK_R_X, GK_R_Y, PLAYER_R / 2,
+                               draw_pixel_right_team);
+
+  /* defenders */
+  bresenham_draw_circle_filled(DEF_L_X, DEF_L_Y, PLAYER_R, draw_pixel_white);
+  bresenham_draw_circle_filled(DEF_L_X, DEF_L_Y, PLAYER_R / 2,
+                               draw_pixel_left_team);
+  bresenham_draw_circle_filled(DEF_R_X, DEF_R_Y, PLAYER_R, draw_pixel_white);
+  bresenham_draw_circle_filled(DEF_R_X, DEF_R_Y, PLAYER_R / 2,
+                               draw_pixel_right_team);
+
+  /* midfielders */
+  bresenham_draw_circle_filled(MID_L_X, MID_L_Y, PLAYER_R, draw_pixel_white);
+  bresenham_draw_circle_filled(MID_L_X, MID_L_Y, PLAYER_R / 2,
+                               draw_pixel_left_team);
+
+  bresenham_draw_circle_filled(MID_R_X, MID_R_Y, PLAYER_R, draw_pixel_white);
+  bresenham_draw_circle_filled(MID_R_X, MID_R_Y, PLAYER_R / 2,
+                               draw_pixel_right_team);
+
+  /* forwards */
+  bresenham_draw_circle_filled(FWD_L_X, FWD_L_Y, PLAYER_R, draw_pixel_white);
+  bresenham_draw_circle_filled(FWD_L_X, FWD_L_Y, PLAYER_R / 2,
+                               draw_pixel_left_team);
+
+  bresenham_draw_circle_filled(FWD_R_X, FWD_R_Y, PLAYER_R, draw_pixel_white);
+  bresenham_draw_circle_filled(FWD_R_X, FWD_R_Y, PLAYER_R / 2,
+                               draw_pixel_right_team);
 }
